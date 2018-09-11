@@ -1,0 +1,28 @@
+﻿@using AGL.CatOwner.Models;
+@model IEnumerable<PetGroup>
+@{
+
+}
+
+<div>
+    Hi
+</div>
+
+<p>All Cats by their Owner's gender</p>
+@if (null != Model && Model.Count() > 0)
+{
+    foreach (PetGroup pg in Model)
+    {
+        <ul class='pet-owner-group'>
+            <li>
+                @pg.GroupName
+                @foreach (string petName in pg.PetNames)
+                {
+                <ul>
+                    <li>@petName</li>
+                </ul>
+                }
+            </li>
+        </ul>
+    }
+}

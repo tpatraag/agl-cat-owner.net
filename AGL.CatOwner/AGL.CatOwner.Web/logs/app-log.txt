@@ -1,0 +1,38 @@
+2018-09-11 16:39:17.2089|INFO|AGL.CatOwner.Utility.Logging|CatOwner application started
+2018-09-11 16:42:03.2961|ERROR|AGL.CatOwner.Utility.Logging|System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: Unable to connect to the remote server ---> System.Net.Sockets.SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 23.101.224.24:80
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- End of inner exception stack trace ---
+   at System.Net.HttpWebRequest.EndGetResponse(IAsyncResult asyncResult)
+   at System.Net.Http.HttpClientHandler.GetResponseCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---:   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at AGL.CatOwner.Service.PetOwner.PetOwnerService.GetAllPetOwner() in E:\Projects\agl-cat-owner.net\AGL.CatOwner\AGL.CatOwner.Service\PetOwner\PetOwnerService.cs:line 38
+2018-09-11 16:43:56.9598|ERROR|AGL.CatOwner.Utility.Logging|System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: Unable to connect to the remote server ---> System.Net.Sockets.SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 23.101.224.24:80
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- End of inner exception stack trace ---
+   at System.Net.HttpWebRequest.EndGetResponse(IAsyncResult asyncResult)
+   at System.Net.Http.HttpClientHandler.GetResponseCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---:   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at AGL.CatOwner.Service.PetOwner.PetOwnerService.GetAllPetOwner() in E:\Projects\agl-cat-owner.net\AGL.CatOwner\AGL.CatOwner.Service\PetOwner\PetOwnerService.cs:line 38
+2018-09-11 16:55:59.2209|ERROR|AGL.CatOwner.Utility.Logging|System.Net.Http.HttpRequestException: An error occurred while sending the request. ---> System.Net.WebException: Unable to connect to the remote server ---> System.Net.Sockets.SocketException: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond 23.101.224.24:80
+   at System.Net.Sockets.Socket.EndConnect(IAsyncResult asyncResult)
+   at System.Net.ServicePoint.ConnectSocketInternal(Boolean connectFailure, Socket s4, Socket s6, Socket& socket, IPAddress& address, ConnectSocketState state, IAsyncResult asyncResult, Exception& exception)
+   --- End of inner exception stack trace ---
+   at System.Net.HttpWebRequest.EndGetResponse(IAsyncResult asyncResult)
+   at System.Net.Http.HttpClientHandler.GetResponseCallback(IAsyncResult ar)
+   --- End of inner exception stack trace ---:   at System.Threading.Tasks.Task.ThrowIfExceptional(Boolean includeTaskCanceledExceptions)
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at System.Threading.Tasks.Task`1.get_Result()
+   at AGL.CatOwner.Service.PetOwner.PetOwnerService.GetAllPetOwner() in E:\Projects\agl-cat-owner.net\AGL.CatOwner\AGL.CatOwner.Service\PetOwner\PetOwnerService.cs:line 38
+2018-09-11 17:42:39.4871|INFO|AGL.CatOwner.Utility.Logging|CatOwner application started
+2018-09-11 19:30:06.7611|INFO|AGL.CatOwner.Utility.Logging|CatOwner application started
+2018-09-11 19:37:09.6221|INFO|AGL.CatOwner.Utility.Logging|CatOwner application started
+2018-09-11 19:44:19.5463|INFO|AGL.CatOwner.Utility.Logging|CatOwner application started
+2018-09-11 19:51:28.7252|INFO|AGL.CatOwner.Utility.Logging|CatOwner application started
+2018-09-11 20:03:48.4355|INFO|AGL.CatOwner.Utility.Logging|CatOwner application started
+2018-09-11 20:20:28.8716|INFO|AGL.CatOwner.Utility.Logging|CatOwner application started
