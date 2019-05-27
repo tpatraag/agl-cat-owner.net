@@ -30,7 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,14 +53,13 @@
       <Project>{db463289-0e91-4159-9680-fde08f587ffd}</Project>
       <Name>AGL.CatOwner.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AGL.CatOwner.Service\AGL.CatOwner.Service.csproj">
-      <Project>{501e188a-c406-41ed-b9da-caa33fa6e1cd}</Project>
-      <Name>AGL.CatOwner.Service</Name>
-    </ProjectReference>
     <ProjectReference Include="..\AGL.CatOwner.Utility\AGL.CatOwner.Utility.csproj">
       <Project>{B4A12637-02BD-416D-8C98-27D4ECEBC9A4}</Project>
       <Name>AGL.CatOwner.Utility</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,41 +1,74 @@
 ﻿using AGL.CatOwner.Models;
-using AGL.CatOwner.Service.PetOwner;
 using AGL.CatOwner.Utility;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Configuration;
 
 namespace AGL.CatOwner.Repository.PetOwner
 {
     public class PetOwnerRepo : IPetOwnerRepo
     {
-        private IPetOwnerService petOwnerService;
+        private ICaching cache;
 
-        public PetOwnerRepo(IPetOwnerService petOwnerService)
+        public PetOwnerRepo(ICaching cache)
         {
-            this.petOwnerService = petOwnerService;
+            this.cache = cache;
         }
 
-        public IEnumerable<PetGroup> GetPetsByOwnerGender(string petType)
+        public IEnumerable<PetOwnerPerson> GetAllPetOwner()
         {
-            List<PetGroup> _result = null;
-            List<PetOwnerPerson> petOwners = this.petOwnerService.GetAllPetOwner().ToList();
-            if (!string.IsNullOrWhiteSpace(petType) && petOwners.Count > 0)
+            try
             {
-                _result = new List<PetGroup>();
-
-                _result = petOwners.GroupBy(p => p.Gender)
-                    .Select(p => new PetGroup
+                string _petOwnerResultStream;
+                bool _isProxyEnabled = Convert.ToBoolean(ConfigurationManager.AppSettings[Constants.UseProxy]);
+                ProxyDetail _proxyDetail = null;
+                if (_isProxyEnabled)
+                {
+                    _proxyDetail = new ProxyDetail
                     {
-                        GroupName = p.Key,
-                        PetNames = p.SelectManyExceptNull(po => po.Pets)
-                        .Where(c => petType == c.Type)
-                        .Select(c => c.Name)
-                        .Distinct()
-                        .OrderBy(c => c)
-                        .ToList()
-                    }).ToList<PetGroup>();
+                        Url = ConfigurationManager.AppSettings[Constants.ProxyUrl].ToString(),
+                        Port = ConfigurationManager.AppSettings[Constants.ProxyPort].ToString()
+                    };
+
+                }
+
+                Dictionary<string, string> _headerDetails = new Dictionary<string, string>();
+                _headerDetails.Add("User-Agent", ConfigurationManager.AppSettings[Constants.ExtApiUserAgent].ToString());
+
+                bool _isMemoryCacheEnabled = Convert.ToBoolean(ConfigurationManager.AppSettings[Constants.MemCacheAppSettings]);
+
+                //Check in Cache
+                if (_isMemoryCacheEnabled)
+                {
+                    if (null == this.cache.Get(Constants.PetOwnerCache, false))
+                    {
+                        _petOwnerResultStream = APIHandler.GetAPIResult(ConfigurationManager.AppSettings[Constants.ApiUrl], _headerDetails, _isProxyEnabled, _proxyDetail); //.Result; // httpClient.GetStringAsync(new Uri(ConfigurationManager.AppSettings[Constants.ApiUrl])).Result;
+                        cache.Set(Constants.PetOwnerCache, _petOwnerResultStream, false, null);
+                    }
+                    else
+                    {
+                        _petOwnerResultStream = Convert.ToString(cache.Get(Constants.PetOwnerCache, false));
+                    }
+                }
+                else
+                {
+                    _petOwnerResultStream = APIHandler.GetAPIResult(ConfigurationManager.AppSettings[Constants.ApiUrl], _headerDetails, _isProxyEnabled, _proxyDetail);
+                }
+
+
+                JsonSerializerSettings settings = new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    MissingMemberHandling = MissingMemberHandling.Ignore
+                };
+                return JsonConvert.DeserializeObject<List<PetOwnerPerson>>(_petOwnerResultStream, settings);
             }
-            return _result;
+            catch (Exception ex)
+            {
+                Logging.HandleException(ex);
+                throw;
+            }
         }
     }
 }

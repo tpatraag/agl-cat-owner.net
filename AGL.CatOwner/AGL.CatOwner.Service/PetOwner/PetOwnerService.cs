@@ -1,74 +1,41 @@
 ﻿using AGL.CatOwner.Models;
+using AGL.CatOwner.Repository.PetOwner;
 using AGL.CatOwner.Utility;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Configuration;
+using System.Linq;
 
 namespace AGL.CatOwner.Service.PetOwner
 {
     public class PetOwnerService : IPetOwnerService
     {
-        private ICaching cache;
+        private readonly IPetOwnerRepo petOwnerService;
 
-        public PetOwnerService(ICaching cache)
+        public PetOwnerService(IPetOwnerRepo petOwnerService)
         {
-            this.cache = cache;
+            this.petOwnerService = petOwnerService;
         }
 
-        public IEnumerable<PetOwnerPerson> GetAllPetOwner()
+        public IEnumerable<PetGroup> GetPetsByOwnerGender(string petType)
         {
-            try
+            List<PetGroup> _result = null;
+            List<PetOwnerPerson> petOwners = this.petOwnerService.GetAllPetOwner().ToList();
+            if (!string.IsNullOrWhiteSpace(petType) && petOwners.Count > 0)
             {
-                string _petOwnerResultStream;
-                bool _isProxyEnabled = Convert.ToBoolean(ConfigurationManager.AppSettings[Constants.UseProxy]);
-                ProxyDetail _proxyDetail = null;
-                if (_isProxyEnabled)
-                {
-                    _proxyDetail = new ProxyDetail
+                _result = new List<PetGroup>();
+
+                _result = petOwners.GroupBy(p => p.Gender)
+                    .Select(p => new PetGroup
                     {
-                        Url = ConfigurationManager.AppSettings[Constants.ProxyUrl].ToString(),
-                        Port = ConfigurationManager.AppSettings[Constants.ProxyPort].ToString()
-                    };
-
-                }
-
-                Dictionary<string, string> _headerDetails = new Dictionary<string, string>();
-                _headerDetails.Add("User-Agent", ConfigurationManager.AppSettings[Constants.ExtApiUserAgent].ToString());
-
-                bool _isMemoryCacheEnabled = Convert.ToBoolean(ConfigurationManager.AppSettings[Constants.MemCacheAppSettings]);
-
-                //Check in Cache
-                if (_isMemoryCacheEnabled)
-                {
-                    if (null == this.cache.Get(Constants.PetOwnerCache, false))
-                    {
-                        _petOwnerResultStream = APIHandler.GetAPIResult(ConfigurationManager.AppSettings[Constants.ApiUrl], _headerDetails, _isProxyEnabled, _proxyDetail); //.Result; // httpClient.GetStringAsync(new Uri(ConfigurationManager.AppSettings[Constants.ApiUrl])).Result;
-                        cache.Set(Constants.PetOwnerCache, _petOwnerResultStream, false, null);
-                    }
-                    else
-                    {
-                        _petOwnerResultStream = Convert.ToString(cache.Get(Constants.PetOwnerCache, false));
-                    }
-                }
-                else
-                {
-                    _petOwnerResultStream = APIHandler.GetAPIResult(ConfigurationManager.AppSettings[Constants.ApiUrl], _headerDetails, _isProxyEnabled, _proxyDetail);
-                }
-
-
-                JsonSerializerSettings settings = new JsonSerializerSettings
-                {
-                    NullValueHandling = NullValueHandling.Ignore,
-                    MissingMemberHandling = MissingMemberHandling.Ignore
-                };
-                return JsonConvert.DeserializeObject<List<PetOwnerPerson>>(_petOwnerResultStream, settings);
+                        GroupName = p.Key,
+                        PetNames = p.SelectManyExceptNull(po => po.Pets)
+                        .Where(c => petType == c.Type)
+                        .Select(c => c.Name)
+                        .Distinct()
+                        .OrderBy(c => c)
+                        .ToList()
+                    }).ToList<PetGroup>();
             }
-            catch (Exception ex)
-            {
-                Logging.HandleException(ex);
-                throw;
-            }
+            return _result;
         }
     }
 }

@@ -4,26 +4,34 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using AGL.CatOwner.Web.Controllers;
 using AGL.CatOwner.Models;
-using AGL.CatOwner.Repository.PetOwner;
 using AGL.CatOwner.Tests.MockData;
+using AGL.CatOwner.Service.PetOwner;
 
 namespace AGL.CatOwner.Tests.Controllers
 {
     [TestClass]
     public class CatOwnerControllerTest
     {
+        private readonly MockProvider _mockProvider;
+        private readonly Mock<IPetOwnerService> _mockService;
+        private readonly CatOwnerController _controller;
+
+        public CatOwnerControllerTest()
+        {
+            _mockProvider = new MockProvider();
+            _mockService = new Mock<IPetOwnerService>();
+            _controller = new CatOwnerController(_mockService.Object);
+        }
+
         [TestMethod]
         public void IndexBasic()
         {
             // Arrange
             string _petType = "Cat";
-            MockProvider _mockp = new MockProvider();
-            var mock = new Mock<IPetOwnerRepo>();
-            mock.Setup(p => p.GetPetsByOwnerGender(_petType)).Returns(_mockp.GetMockPetGroup());
-            CatOwnerController controller = new CatOwnerController(mock.Object);
+            _mockService.Setup(p => p.GetPetsByOwnerGender(_petType)).Returns(_mockProvider.GetMockPetGroup());
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
+            ViewResult result = _controller.Index() as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);
@@ -34,13 +42,10 @@ namespace AGL.CatOwner.Tests.Controllers
         {
             // Arrange
             string _petType = "Cat";
-            MockProvider _mockp = new MockProvider();
-            var mock = new Mock<IPetOwnerRepo>();
-            mock.Setup(p => p.GetPetsByOwnerGender(_petType)).Returns(_mockp.GetMockPetGroup());
-            CatOwnerController controller = new CatOwnerController(mock.Object);
+            _mockService.Setup(p => p.GetPetsByOwnerGender(_petType)).Returns(_mockProvider.GetMockPetGroup());
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
+            ViewResult result = _controller.Index() as ViewResult;
 
             // Assert
             Assert.IsNotNull(result.Model);
@@ -51,13 +56,10 @@ namespace AGL.CatOwner.Tests.Controllers
         {
             // Arrange
             string _petType = "Cat";
-            MockProvider _mockp = new MockProvider();
-            var mock = new Mock<IPetOwnerRepo>();
-            mock.Setup(p => p.GetPetsByOwnerGender(_petType)).Returns(_mockp.GetMockPetGroup());
-            CatOwnerController controller = new CatOwnerController(mock.Object);
+            _mockService.Setup(p => p.GetPetsByOwnerGender(_petType)).Returns(_mockProvider.GetMockPetGroup());
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
+            ViewResult result = _controller.Index() as ViewResult;
 
             // Assert
             Assert.IsInstanceOfType(result, typeof(ViewResult));
@@ -68,13 +70,10 @@ namespace AGL.CatOwner.Tests.Controllers
         {
             // Arrange
             string _petType = "Cat";
-            MockProvider _mockp = new MockProvider();
-            var mock = new Mock<IPetOwnerRepo>();
-            mock.Setup(p => p.GetPetsByOwnerGender(_petType)).Returns(_mockp.GetMockPetGroup());
-            CatOwnerController controller = new CatOwnerController(mock.Object);
+            _mockService.Setup(p => p.GetPetsByOwnerGender(_petType)).Returns(_mockProvider.GetMockPetGroup());
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
+            ViewResult result = _controller.Index() as ViewResult;
 
             // Assert
             Assert.AreEqual(((List<PetGroup>)result.Model).Count, 2);
@@ -85,13 +84,10 @@ namespace AGL.CatOwner.Tests.Controllers
         {
             // Arrange
             string _petType = "Cat";
-            MockProvider _mockp = new MockProvider();
-            var mock = new Mock<IPetOwnerRepo>();
-            mock.Setup(p => p.GetPetsByOwnerGender(_petType)).Returns(_mockp.GetMockPetGroupWithNull());
-            CatOwnerController controller = new CatOwnerController(mock.Object);
+            _mockService.Setup(p => p.GetPetsByOwnerGender(_petType)).Returns(_mockProvider.GetMockPetGroupWithNull());
 
             // Act
-            ViewResult result = controller.Index() as ViewResult;
+            ViewResult result = _controller.Index() as ViewResult;
 
             // Assert
             Assert.IsNull(result.Model);

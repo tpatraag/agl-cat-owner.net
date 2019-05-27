@@ -34,7 +34,6 @@
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -55,6 +54,10 @@
     <ProjectReference Include="..\AGL.CatOwner.Models\AGL.CatOwner.Models.csproj">
       <Project>{db463289-0e91-4159-9680-fde08f587ffd}</Project>
       <Name>AGL.CatOwner.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AGL.CatOwner.Repository\AGL.CatOwner.Repository.csproj">
+      <Project>{80266e8b-0712-47a8-9bb0-f0fdf57ec6d6}</Project>
+      <Name>AGL.CatOwner.Repository</Name>
     </ProjectReference>
     <ProjectReference Include="..\AGL.CatOwner.Utility\AGL.CatOwner.Utility.csproj">
       <Project>{b4a12637-02bd-416d-8c98-27d4ecebc9a4}</Project>

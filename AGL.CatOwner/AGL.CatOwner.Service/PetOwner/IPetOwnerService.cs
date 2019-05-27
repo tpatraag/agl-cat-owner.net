@@ -5,6 +5,6 @@ namespace AGL.CatOwner.Service.PetOwner
 {
     public interface IPetOwnerService
     {
-        IEnumerable<PetOwnerPerson> GetAllPetOwner();
+        IEnumerable<PetGroup> GetPetsByOwnerGender(string petType);
     }
 }
