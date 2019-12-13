@@ -24,12 +24,12 @@ steps:
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
-- task: powershell@2
-  displayName: 'Create Swagger file'
-  inputs:
-    targetType: filePath
-    filePath: deploy/lib/GetSwaggerByExe.ps1
-    arguments: '-RootDirectory "src/SwaggerGenerator"  -OutputFile "deploy/swagger/swagger.json" '
+# - task: powershell@2
+#   displayName: 'Create Swagger file'
+#   inputs:
+#     targetType: filePath
+#     filePath: deploy/lib/GetSwaggerByExe.ps1
+#     arguments: '-RootDirectory "src/SwaggerGenerator"  -OutputFile "deploy/swagger/swagger.json" '
   
 - task: VSTest@2
   displayName: 'Test Assemblies'
